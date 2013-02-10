@@ -39,8 +39,7 @@
                 <a href="php/debug/displayTable.php?table=user_info">User Info Table</a><br />
 	</td></tr>
 	<tr><td>
-		<a href="getTempCsv.php">Get temperature CSV file</a><br />
-		<a href="displayGraph.php">View graph</a><br />
+		<a href="php/getTempCsv.php">Get temperature CSV file</a><br />
 	</td></tr>
 </table>
 

@@ -45,6 +45,8 @@ if( !isset($_SESSION['username']) ) {
                                    <link rel="shortcut icon" href="ico/favicon.png">
                                     
     <script src="js/dygraph-combined.js"></script>
+    <script src="js/jquery.js"></script>
+    <script src="js/tempmonitor.js"></script>
   </head>
 
   <body>
@@ -77,14 +79,12 @@ if( !isset($_SESSION['username']) ) {
                 </ul>
               </li>
             </ul>
-            <!-- Settings and Signout buttons -->
-            <form class="navbar-form btn-group pull-right" method="post" action="php/page-redirect.php">
-              <button class="btn" type="submit" name="settings" value="settings"><i class="icon-wrench"></i></button>
-              <button class="btn" type="submit" name="signout" value="signout">Sign Out</button>
-            </form>
-            <!-- <form class="navbar-form pull-right" action="php/logout.php">
-              <!-- <button type="submit" class="btn">Sign Out</button> -->
-            <!-- </form> -->
+              <!-- Pause/Play, Settings and Signout buttons -->     
+            <div class="btn-toolbar btn-group pull-right">
+              <button class="btn" id="pausePlayButton"><i id="pausePlayIcon" class="icon-pause"></i></button>
+              <a class="btn" href="settings.php"><i class="icon-wrench"></i></button>
+              <a class="btn" href="php/signout.php">Sign Out</a>
+            </div>
           </div><!--/.nav-collapse -->
         </div>
       </div>
@@ -111,6 +111,11 @@ if( !isset($_SESSION['username']) ) {
                 <li>
                   <a href="#">
                     Sensor 2
+                  </a>
+                </li>
+                <li>
+                  <a href="#">
+                    Sensor 3
                   </a>
                 </li>
                 <li>
@@ -204,7 +209,9 @@ if( !isset($_SESSION['username']) ) {
           <div id="graphdiv" style="width:800px; height:320px;"></div>
           <script type="text/javascript">
             g = new Dygraph(document.getElementById("graphdiv"),
-                      "test.csv",
+                      // data source
+                      "php/getTempCsv.php", // All data from database
+                      //"test.csv",  // test data
                 // options
                 {
                   title: 'Temperature',
@@ -231,7 +238,7 @@ if( !isset($_SESSION['username']) ) {
           <table class="table table-striped">
             <tr>
               <td>Timestamp</td>
-              <td>2013-02-07 12:14:36</td>
+              <td id="currentTs"> </td>
             </tr>
             <tr>
               <td>Sensor 1</td>
@@ -240,6 +247,10 @@ if( !isset($_SESSION['username']) ) {
             <tr>
               <td>Sensor 2</td>
               <td>33.7</td>
+            </tr>
+            <tr>
+              <td>Sensor 3</td>
+              <td>33.6</td>
             </tr>
             <tr>
               <td>Average</td>
@@ -296,9 +307,8 @@ if( !isset($_SESSION['username']) ) {
     <!-- Javascript
     ================================================== -->
     <!-- Placed at the end of the document so the pages load faster -->
-    <script src="js/jquery.js"></script>
-    <script src="js/bootstrap.js"></script>
     
+    <script src="js/bootstrap.js"></script>
 
   </body>
 </html>
