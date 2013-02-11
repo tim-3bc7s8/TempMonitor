@@ -4,7 +4,7 @@
 require_once 'KLogger.php';
 
 // sets the logging level.
-$log = KLogger::instance('../logs', KLogger::DEBUG);
+$log = KLogger::instance('../logs', KLogger::ERR);
 
 // connect to the database
 require_once 'dbconfig.php';

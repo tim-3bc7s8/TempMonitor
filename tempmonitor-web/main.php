@@ -242,19 +242,19 @@ if( !isset($_SESSION['username']) ) {
             </tr>
             <tr>
               <td>Sensor 1</td>
-              <td>33.5</td>
+              <td id="currentS1"> </td>
             </tr>
             <tr>
               <td>Sensor 2</td>
-              <td>33.7</td>
+              <td id="currentS2"> </td>
             </tr>
             <tr>
               <td>Sensor 3</td>
-              <td>33.6</td>
+              <td id="currentS3"> </td>
             </tr>
             <tr>
               <td>Average</td>
-              <td>33.6</td>
+              <td id="currentAverage"> </td>
             </tr>
             <tr>
               <td>Target</td>

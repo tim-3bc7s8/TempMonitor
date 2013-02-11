@@ -3,7 +3,7 @@ var autoUpdate;
 
 // --- Document Ready ---
 $("document").ready(function() {        
-  
+  updateData();
   // This is the polling function. Periodically checks for new info from the database.
   autoUpdate = setInterval(updateData, 1000);
   
@@ -42,14 +42,18 @@ function updateCurrentData() {
 }
 
 function updateCurrentTimeStamp() {
-  $.ajax({
-    type: "POST",
-    url: "../php/currentdata.php",
-    success: changeCurrentTimeStamp });
+  var url = "./php/currentdata.php";
+  $.getJSON(url, function(data) {
+    $("#currentTs").text(data.ts);
+    $("#currentS1").text(data.sensor1);
+    $("#currentS2").text(data.sensor2);
+    $("#currentS3").text(data.sensor3);
+    $("#currentAverage").text(data.average);
+  });
+  
+  
 }
 
-function changeCurrentTimeStamp(data, status) {
-  $("#currentTs").text(data);
-}
+
 
 
