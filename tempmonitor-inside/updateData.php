@@ -2,7 +2,7 @@
 
 /***************************************************************
     updateData.php
-	Part of the frmsProject
+	Part of the TempMonitor project
 	
 	This script takes data passed to it and inserts it into the
 	database by way of the tempMonitorDatabase class. 
@@ -84,23 +84,20 @@ $log->logDebug($urlString . "?" . $queryString);
 ****************************************************************/
 
 // sets debug mode. If debug is set to anything, it will be enabled
-if (!isset($_GET['debug']))
-{
+if (!isset($_GET['debug'])) {
 	$debug=false;
 } else {
 	$debug=true;
 }
 // validate that the device address was sent and not empty
-if (!isset($_GET['id']) || empty($_GET['id']))
-{
+if (!isset($_GET['id']) || empty($_GET['id'])) {
 	$log->logError('Device address was not received in URL.');
 	$errorFound=true;
 } else {
 	$device_address=$_GET['id'];
 }
 // validate that data was sent and not empty
-if (!isset($_GET['data']) || empty($_GET['data']))
-{
+if (!isset($_GET['data']) || empty($_GET['data'])) {
 	$log->logError('Data was not received in URL.');
 	$errorFound=true;
 } else {
@@ -111,8 +108,7 @@ if (!isset($_GET['data']) || empty($_GET['data']))
     Process the Data
 ****************************************************************/
 
-if (!$errorFound)
-{
+if (!$errorFound) {
 	$log->logNotice('Begin updating data process.');
 	
 	// Initiate the database connection object.
@@ -121,12 +117,10 @@ if (!$errorFound)
 	$tempDB->init($host, $username, $password, $db_name, $log_level);
 	
 	// this section is for debugging. Displays the sensor id's and temps.
-	if ($log_level >= KLogger::INFO)
-		{
+	if ($log_level >= KLogger::INFO) {
 		$log->logInfo('Received data:');
 		$i = 0;
-		foreach ($device_address as $sensor)
-		{
+		foreach ($device_address as $sensor) {
 			$log->logInfo('sensor id: ' . $sensor . ' temperature: ' . $data[$i]);
 			$i++;
 		}
@@ -139,7 +133,6 @@ if (!$errorFound)
 	$log->logInfo('End updating data.');
 }
 
-if (!$errorFound && $debug)
-{
+if (!$errorFound && $debug) {
 	echo "OK!";
 }

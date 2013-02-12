@@ -1,11 +1,13 @@
 <?php
 
+/***************************************************************
+    Check if the user is logged in. If not, 
+    redirect to login page.
+****************************************************************/
 session_start();
-
 if( isset($_SESSION['username'])) {
   $username = $_SESSION['username'];
 } else {
-  // if a user is not logged in, direct to the login page
     header("Location: login.php");
 }
 
@@ -24,7 +26,6 @@ if( isset($_SESSION['username'])) {
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <!-- Le styles -->
     <link href="css/bootstrap.css" rel="stylesheet">
     <style type="text/css">
       body {
@@ -84,9 +85,6 @@ if( isset($_SESSION['username'])) {
               <button class="btn disabled" type="submit" name="settings" value="settings" disabled><i class="icon-wrench"></i></button>
               <button class="btn" type="submit" name="signout" value="signout">Sign Out</button>
             </form>
-            <!-- <form class="navbar-form pull-right" action="php/logout.php">
-              <!-- <button type="submit" class="btn">Sign Out</button> -->
-            <!-- </form> -->
           </div><!--/.nav-collapse -->
         </div>
       </div>
@@ -94,7 +92,7 @@ if( isset($_SESSION['username'])) {
 
     <div class="container">
 
-      <!-- Example row of columns -->
+      <!-- First row -->
       <div class="row">
         <div class="span4">
           <h2>Heading</h2>
@@ -112,7 +110,7 @@ if( isset($_SESSION['username'])) {
           <p><a class="btn" href="#">View details &raquo;</a></p>
         </div>
       </div>
-      <!-- Admin Settings -->
+      <!-- Admin Settings (second row) -->
       <div class="row">
         <div class="span4">
           <h2>Admin Settings</h2>
@@ -141,7 +139,6 @@ if( isset($_SESSION['username'])) {
 
     <!-- Javascript
     ================================================== -->
-    <!-- Placed at the end of the document so the pages load faster -->
     <script src="js/jquery.js"></script>
     <script src="js/bootstrap.js"></script>
     

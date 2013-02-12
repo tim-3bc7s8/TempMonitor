@@ -1,9 +1,13 @@
 <?php
 
-/* 
-	This class is used to interact with the FRMS database.
+/***************************************************************
+    tempMonitorDatabase.php
+	Part of the TempMonitor project
 	
-*/
+	This script is used to interact with the Temp Monitoring 
+    database.
+    
+****************************************************************/
 
 // logging system
 require_once 'php/KLogger.php';
@@ -26,15 +30,16 @@ class tempMonitorDatabase
 	var $tbl_wifi_stats="wifi_stats"; // continuous polling data about the wifi connection
 	var $tbl_wifi_info="wifi_info"; // information about the wifi device (ip, mask, gateway, ect)
 	var $tbl_system_settings="system_settings"; // general setting about how the frms system works (logging level, ect)
+    var $tbl_user_info="user_info"; // information specific to users
         
-        // location of log file
+    // location of log file
 	var $log_file="logs";
 	
 	// initializes database connection info
-	public function init($new_host, $new_username, $new_password, $new_db_name, $debug = KLogger::ERR)
+	public function init($new_host, $new_username, $new_password, $new_db_name, $log_level = KLogger::ERR)
 	{
-		// sets the logging level at DEBUG.
-		$log = KLogger::instance($this->log_file, $debug);
+		// sets the logging level.
+		$log = KLogger::instance($this->log_file, $log_level);
 		
 		$log->logInfo('Initialize tempMonitorDatabase');
 		$log->logDebug('Received values: host=' . $new_host . 
@@ -57,24 +62,23 @@ class tempMonitorDatabase
 	// Check if a device is already present in the database. 
 	// This does not add the device to the database, only checks for
 	// its existance.
-	public function deviceExists($device_address, $debug = KLogger::ERR)
+	public function deviceExists($device_address, $log_level = KLogger::ERR)
 	{
-		// sets the logging level at DEBUG.
-		$log = KLogger::instance($this->log_file, $debug);
+		// sets the logging level.
+		$log = KLogger::instance($this->log_file, $log_level);
 		$log->logInfo('Checking if the device exists : ' . $device_address);
 		
 		// connect to the database
 		$conn = mysql_connect("$this->host", "$this->username", "$this->password");
-		if (!$conn)
-		{
+		if (!$conn){
 			// log any errors
 			$log->logCrit('Cannot connect to database: ' . mysql_error()); 
 			exit('Database Error.');
 		}		
 		// select the database
 		$db_select = @mysql_select_db("$this->db_name");
-		if (!$db_select) // log any errors
-		{
+		if (!$db_select) {
+            // log any errors
 			$log->logCrit('Could not select database. ' . mysql_error());
 			exit('Database Error.');
 		}
@@ -84,8 +88,8 @@ class tempMonitorDatabase
 			$log->logDebug('Check if device is in the database...');
 			$log->logDebug('sql=' . $sql);
 		$result=mysql_query($sql);
-		if (!$result)
-		{	// log any errors
+		if (!$result) {	
+            // log any errors
 			$log->Error('Checking if device exists in database. ' . mysql_error());
 			exit('Database Error.');
 		}
@@ -95,13 +99,10 @@ class tempMonitorDatabase
 		// close the connection to the database
 		mysql_close($conn);
 		
-		if ($num >= 1)
-		{
+		if ($num >= 1) {
 			$log->logInfo('Device was found in the database.');
 			return true;
-		}
-		else
-		{
+		} else {
 			$log->logInfo('Device was NOT found in the database.');
 			return false;
 		}
@@ -110,27 +111,27 @@ class tempMonitorDatabase
 	
 	// Check if the device is in the database and if it is not,
 	// then add it to the database.
-	public function checkDevice($device_address, $debug = KLogger::ERR)
+	public function checkDevice($device_address, $log_level = KLogger::ERR)
 	{
-		// sets the logging level at DEBUG.
-		$log = KLogger::instance($this->log_file, $debug);
+		// sets the logging level.
+		$log = KLogger::instance($this->log_file, $log_level);
 		$log->logDebug('tempMonitorDatabase.checkDevice(device_address=' . $device_address . ')');
 		
-		if ($this->deviceExists($device_address, $debug))
+		if ($this->deviceExists($device_address, $log_level))
 			return true;		
 		
 	
 		// connect to the database
 		$conn = @mysql_connect("$this->host", "$this->username", "$this->password");
-		if (!$conn) // log any errors
-		{
+		if (!$conn) {
+            // log any errors
 			$log->logCrit('Cannot connect to database: ' . mysql_error()); 
 			exit('Database Error.');
 		}
 		// select the database
 		$db_select = @mysql_select_db("$this->db_name");
-		if (!$db_select) // log any errors
-		{
+		if (!$db_select) {
+            // log any errors
 			$log->logCrit('Could not select database. ' . mysql_error());
 			exit('Database Error.');
 		}
@@ -140,8 +141,7 @@ class tempMonitorDatabase
 			$log->logInfo('Adding the device to the database.');
 			$log->logDebug('sql=' . $sql);
 		$result = mysql_query($sql);
-		if (!result)
-		{
+		if (!result) {
 			$log->logError('Attempting to insert device into database. ' . mysql_error());
 			exit('Database Error.');
 		}
@@ -151,23 +151,23 @@ class tempMonitorDatabase
 	
 	// Inserts data into the database.
 	// device_address and data are arrays
-	public function updateData($device_address, $data, $debug = KLogger::ERR)
+	public function updateData($device_address, $data, $log_level = KLogger::ERR)
 	{
 		// sets the logging level..
-		$log = KLogger::instance($this->log_file, $debug);
+		$log = KLogger::instance($this->log_file, $log_level);
 		$log->logInfo('Starting tempMonitorDatabase updateData process.');
 	
 		// connect to the database
 		$conn = mysql_connect("$this->host", "$this->username", "$this->password"); 
-		if (!$conn) // log any errors
-		{
+		if (!$conn) { 
+            // log any errors
 			$log->logCrit('Cannot connect to database: ' . mysql_error()); 
 			exit('Database Error.');
 		}
 		// select the database
 		$db_select = @mysql_select_db("$this->db_name");
-		if (!$db_select) // log any errors
-		{
+		if (!$db_select) {
+            // log any errors
 			$log->logCrit('Could not select database. ' . mysql_error());
 			exit('Database Error.');
 		}
@@ -176,8 +176,7 @@ class tempMonitorDatabase
 		$sql="INSERT INTO $this->tbl_data_period (ts) values ( now() )";
 			$log->logDebug('sql=' . $sql);
 		$result = mysql_query($sql);
-		if (!$result)
-		{
+		if (!$result) {
 			// log any errors
 			$log->logError(mysql_error());
 		}
@@ -186,21 +185,20 @@ class tempMonitorDatabase
 		
 		// inserts the data into the DB
 		$i = 0;
-		foreach ($device_address as $sensor)
-		{
+		foreach ($device_address as $sensor) {
 			$this->checkDevice($sensor);
 		
 			// connect to the database
 			$conn = mysql_connect("$this->host", "$this->username", "$this->password"); 
-			if (!$conn) // log any errors
-			{
+			if (!$conn) {
+                // log any errors
 				$log->logCrit('Cannot connect to database: ' . mysql_error()); 
 				exit('Database Error.');
 			}
 			// select the database
 			$db_select = @mysql_select_db("$this->db_name");
-			if (!$db_select) // log any errors
-			{
+			if (!$db_select) { 
+                // log any errors
 				$log->logCrit('Could not select database. ' . mysql_error());
 				exit('Database Error.');
 			}
@@ -209,8 +207,7 @@ class tempMonitorDatabase
 				$log->logDebug('Inserting data into database...');
 				$log->logDebug('sql=' . $sql);
 			$result = mysql_query($sql);
-			if (!$result)
-			{
+			if (!$result) {
 				$log->logError(mysql_error());
 			}
 			$i++;
@@ -220,23 +217,23 @@ class tempMonitorDatabase
 
 
 	// Inserts the wifi stats into the database.
-	public function updateWifiStats($wifi_id, $rssi, $uptime, $free_memory, $debug = KLogger::ERR)
+	public function updateWifiStats($wifi_id, $rssi, $uptime, $free_memory, $log_level = KLogger::ERR)
 	{
 		// sets the logging level.
-		$log = KLogger::instance($this->log_file, $debug);
+		$log = KLogger::instance($this->log_file, $log_level);
 		$log->logInfo('Starting tempMonitorDatabase updateWifiStats process.');
 		
 		// connect to the database
 		$conn = mysql_connect("$this->host", "$this->username", "$this->password"); 
-		if (!$conn) // log any errors
-		{
+		if (!$conn) {
+            // log any errors
 			$log->logCrit('Cannot connect to database: ' . mysql_error()); 
 			exit('Database Error.');
 		}
 		// select the database
 		$db_select = @mysql_select_db("$this->db_name");
-		if (!$db_select) // log any errors
-		{
+		if (!$db_select) {
+            // log any errors
 			$log->logCrit('Could not select database. ' . mysql_error());
 			exit('Database Error.');
 		}
@@ -245,14 +242,11 @@ class tempMonitorDatabase
 			$log->logDebug('Inserting wifi stats into database...');
 			$log->logDebug('sql=' . $sql);
 		$result = mysql_query($sql);
-		if (!$result)
-		{
+		if (!$result) {
 			$log->logError(mysql_error());
 		}
 		mysql_close($conn);
 	}
-	
-	
+		
 
 }
-

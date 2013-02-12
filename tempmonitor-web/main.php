@@ -1,9 +1,11 @@
 <?php
 
+/***************************************************************
+    Check if the user is logged in. If not, 
+    redirect to login page.
+****************************************************************/
 session_start();
-
 if( !isset($_SESSION['username']) ) {
-    // if a user is not logged in, direct to the login page
     header("Location: login.php");
 }
 
@@ -98,129 +100,53 @@ if( !isset($_SESSION['username']) ) {
           <ul class="nav nav-pills nav-stacked">
             <!-- Dropdown Menu for Sensor Selection -->
             <li class="dropdown">
-              <a class="dropdown-toggle" data-toggle="dropdown" href="#">
-                Sensor Selection
-                <b class="caret"></b>
-              </a>
+              <a class="dropdown-toggle" data-toggle="dropdown" href="#">Sensor Selection<b class="caret"></b></a>
               <ul class="dropdown-menu">
-                <li>
-                  <a href="#">
-                    Sensor 1
-                  </a>
-                </li>
-                <li>
-                  <a href="#">
-                    Sensor 2
-                  </a>
-                </li>
-                <li>
-                  <a href="#">
-                    Sensor 3
-                  </a>
-                </li>
-                <li>
-                  <a href="#">
-                    All Sensors
-                  </a>
-                </li>
+                <li><a href="#">Sensor 1</a></li>
+                <li><a href="#">Sensor 2</a></li>
+                <li><a href="#">Sensor 3</a></li>
+                <li><a href="#">All Sensors</a></li>
               </ul>
             </li>
             <!-- Dropdown Menu for Average -->
             <li class="dropdown">
-              <a class="dropdown-toggle" data-toggle="dropdown" href="#">
-                Average
-                <b class="caret"></b>
-              </a>
+              <a class="dropdown-toggle" data-toggle="dropdown" href="#">Average<b class="caret"></b></a>
               <ul class="dropdown-menu">
-                <li>
-                  <a href="#">
-                    No Average
-                  </a>
-                </li>
-                <li>
-                  <a href="#">
-                    Average 2
-                  </a>
-                </li>
-                <li>
-                  <a href="#">
-                    Average 3
-                  </a>
-                </li>
-                <li>
-                  <a href="#">
-                    Average 5
-                  </a>
-                </li>
-                <li>
-                  <a href="#">
-                    Average 10
-                  </a>
-                </li>
+                <li><a href="#">No Average</a></li>
+                <li><a href="#">Average 2</a></li>
+                <li><a href="#">Average 3</a></li>
+                <li><a href="#">Average 5</a></li>
+                <li><a href="#">Average 10</a></li>
               </ul>
             </li>
             <!-- Dropdown Menu for Time Period-->
             <li class="dropdown">
-              <a class="dropdown-toggle" data-toggle="dropdown" href="#">
-                Time Period
-                <b class="caret"></b>
-              </a>
+              <a class="dropdown-toggle" data-toggle="dropdown" href="#">Time Period<b class="caret"></b></a>
               <ul class="dropdown-menu">
-                <li>
-                  <a href="#">
-                    Past 1 Hour
-                  </a>
-                </li>
-                <li>
-                  <a href="#">
-                    Past 12 Hours
-                  </a>
-                </li>
-                <li>
-                  <a href="#">
-                    Past 24 Hours
-                  </a>
-                </li>
-                <li>
-                  <a href="#">
-                    Past 1 Week
-                  </a>
-                </li>
-                <li>
-                  <a href="#">
-                    Past 1 Month
-                  </a>
-                </li>
-                <li>
-                  <a href="#">
-                    Past 3 Months
-                  </a>
-                </li>
-                <li>
-                  <a href="#">
-                    All Time
-                  </a>
-                </li>
+                <li><a href="#">Past 1 Hour</a></li>
+                <li><a href="#">Past 12 Hours</a></li>
+                <li><a href="#">Past 24 Hours</a></li>
+                <li><a href="#">Past 1 Week</a></li>
+                <li><a href="#">Past 1 Month</a></li>
+                <li><a href="#">Past 3 Months</a></li>
+                <li><a href="#">All Time</a></li>
             <!-- end dropdown -->
           </ul>
         </div>
         <div class="span10">
-          <!-- <img src="http://placehold.it/800x320"> -->
+          <!-- Graph -->
           <div id="graphdiv" style="width:800px; height:320px;"></div>
           <script type="text/javascript">
             g = new Dygraph(document.getElementById("graphdiv"),
-                      // data source
-                      "php/getTempCsv.php", // All data from database
-                      //"test.csv",  // test data
+                // data source
+                "php/getTempCsv.php", // All data from database
                 // options
                 {
                   title: 'Temperature',
-                  // xlabel: 'Time',
                   ylabel: 'Temperature (F)',
                   drawPoints: true,
                   rollPeriod: 1,
                   showRoller: false,
-                  // animatedZooms: true,
                   fillGraph: true,
                   strokeWidth: 2,
                   highlightCircleSize: 4,
@@ -231,8 +157,9 @@ if( !isset($_SESSION['username']) ) {
         </div>
       </div>
 
-      <!-- Example row of columns -->
+      <!-- Second Row -->
       <div class="row">
+        <!-- Current Data section -->
         <div class="span4">
           <h2>Current Data</h2>
           <table class="table table-striped">
@@ -263,14 +190,16 @@ if( !isset($_SESSION['username']) ) {
           </table>
           <p><a class="btn" href="#">View details &raquo;</a></p>
         </div>
-        <div class="span4">
+        <!-- Historic/Statistical Data section -->
+        <div class="span4">            
           <h2>Historic Data</h2>
           <p>Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui. </p>
           <p><a class="btn" href="#">View details &raquo;</a></p>
-       </div>
-        <div class="span4">
-          <h2>Sensor Info</h2>
-          <table class="table table-striped">
+        </div>
+        <!-- Sensor Info section -->
+        <div class="span4">            
+            <h2>Sensor Info</h2>
+            <table class="table table-striped">
             <tr>
               <td>Wifi Uptime</td>
               <td>76:24:03</td>
@@ -304,10 +233,7 @@ if( !isset($_SESSION['username']) ) {
 
     </div> <!-- /container -->
 
-    <!-- Javascript
-    ================================================== -->
-    <!-- Placed at the end of the document so the pages load faster -->
-    
+    <!-- Javascript -->    
     <script src="js/bootstrap.js"></script>
 
   </body>

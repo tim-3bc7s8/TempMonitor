@@ -1,12 +1,10 @@
 <?php
 
 session_start();
-
-if( isset($_SESSION['username']) ) {
-    // if user is already logged in, send to main page
+// if user is already logged in, send to main page
+if( isset($_SESSION['username']) ) {    
     header("Location: main.php");
 }
-
 // check if the user had previously entered an incorrect password
 if( isset($_GET['faillogin'])) {
   $faillogin = true;
@@ -26,7 +24,7 @@ if( isset($_GET['faillogin'])) {
     <meta name="description" content="">
     <meta name="author" content="">      
 
-    <!-- Le styles -->
+    <!-- style -->
     <link href="css/bootstrap.css" rel="stylesheet">
     <style type="text/css">
       body {
@@ -93,7 +91,6 @@ if( isset($_GET['faillogin'])) {
 
     </div> <!-- /container -->
 
-    
 
   </body>
 </html>

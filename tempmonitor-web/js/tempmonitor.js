@@ -1,7 +1,15 @@
-// function that will either have setInterval active or clearInterval
+/**************************************************************
+    The autoUpdate variable stores the setInterval of 
+    updateData(). With this being a variable, we can either 
+    setInterval for a specific refresh time or we can 
+    clearInterval to stop polling for new data.
+****************************************************************/
 var autoUpdate;
 
-// --- Document Ready ---
+
+/***************************************************************
+    Document Ready
+****************************************************************/
 $("document").ready(function() {        
   updateData();
   // This is the polling function. Periodically checks for new info from the database.
@@ -11,7 +19,10 @@ $("document").ready(function() {
   
 });
 
-// Function that start/stop the automatic update polling.
+
+/***************************************************************
+    Toggle automatic update polling
+****************************************************************/
 function toggleAutoPolling() {
   // toggle the icon
   $("#pausePlayIcon").toggleClass("icon-pause");
@@ -24,10 +35,13 @@ function toggleAutoPolling() {
   }
 }
 
+
+/***************************************************************
+    Refresh data on the main screen
+****************************************************************/
 function updateData() {
   // grab the current CSV data
   var newData = "php/getTempCsv.php";
-
   
   // update the graph
   g.updateOptions( { 'file': newData } );
@@ -36,7 +50,10 @@ function updateData() {
   updateCurrentData();
 }
 
-// update current data section
+
+/***************************************************************
+    Refresh 'current data' section of the main screen
+****************************************************************/
 function updateCurrentData() {
   updateCurrentTimeStamp();
 }
@@ -50,8 +67,6 @@ function updateCurrentTimeStamp() {
     $("#currentS3").text(data.sensor3);
     $("#currentAverage").text(data.average);
   });
-  
-  
 }
 
 
