@@ -130,6 +130,8 @@ if( !isset($_SESSION['username']) ) {
                 <li><a href="#">Past 1 Month</a></li>
                 <li><a href="#">Past 3 Months</a></li>
                 <li><a href="#">All Time</a></li>
+              </ul>
+            </li>
             <!-- end dropdown -->
           </ul>
         </div>

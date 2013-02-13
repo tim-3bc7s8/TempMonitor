@@ -35,15 +35,6 @@ class currentData {
 }
 $curData = new currentData();
 
-// used for timing the script execution.
-// Is this needed?
-$log->logDebug("Getting current data.");
-$mtime = microtime(); 
-$mtime = explode(" ",$mtime); 
-$mtime = $mtime[1] + $mtime[0]; 
-$starttime = $mtime;
-$row_count = 0; // used to count the number of rows created
-
 
 /***************************************************************
     Make the connection to the database. 
@@ -52,13 +43,13 @@ $row_count = 0; // used to count the number of rows created
  
 $conn = mysql_connect("$host", "$username", "$password");
 if (!$conn) {
-	$log->logCrit('Cannot connect to database: ' . mysql_error()); 
-	exit('Database Error.');
+    $log->logCrit('Cannot connect to database: ' . mysql_error()); 
+    exit('Database Error.');
 }
 $db_select = @mysql_select_db("$db_name");
 if (!$db_select) {
-	$log->logCrit('Could not select database. ' . mysql_error());
-	exit('Database Error.');
+    $log->logCrit('Could not select database. ' . mysql_error());
+    exit('Database Error.');
 }
 
 
@@ -113,12 +104,3 @@ $curData->average = number_format((($curData->sensor1 + $curData->sensor2 + $cur
     up by the client.
 ****************************************************************/
 echo json_encode($curData);
-
-// Used to time how long it takes to run this script.
-// Is this needed??
-$mtime = microtime(); 
-$mtime = explode(" ",$mtime); 
-$mtime = $mtime[1] + $mtime[0]; 
-$endtime = $mtime; 
-$totaltime = ($endtime - $starttime); 
-$log->logInfo("Current Data was collected. " . $row_count . " rows in " . number_format($totaltime, 3, '.', '') . " seconds. Avg/row: " . number_format($totaltime/$row_count, 3, '.', ''));

@@ -55,10 +55,6 @@ function updateData() {
     Refresh 'current data' section of the main screen
 ****************************************************************/
 function updateCurrentData() {
-  updateCurrentTimeStamp();
-}
-
-function updateCurrentTimeStamp() {
   var url = "./php/currentdata.php";
   $.getJSON(url, function(data) {
     $("#currentTs").text(data.ts);
@@ -68,7 +64,3 @@ function updateCurrentTimeStamp() {
     $("#currentAverage").text(data.average);
   });
 }
-
-
-
-

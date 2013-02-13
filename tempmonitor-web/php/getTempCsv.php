@@ -20,18 +20,6 @@ $log = KLogger::instance('../logs', KLogger::ERR);
 require_once 'dbconfig.php';
 
 
-$errorFound=false;
-
-// -- Validate received data --
-
-// sets debug mode. If debug is set to anything, it will be enabled
-if (!isset($_GET['debug'])) {
-	$debug=false;
-} else {
-	$debug=true;
-}
-
-
 /***************************************************************
     Debug script used to time the script execution 
 ****************************************************************/
