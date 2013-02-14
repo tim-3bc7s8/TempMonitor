@@ -8,19 +8,6 @@ var autoUpdate;
 
 
 /***************************************************************
-    Document Ready
-****************************************************************/
-$("document").ready(function() {        
-  updateData();
-  // This is the polling function. Periodically checks for new info from the database.
-  autoUpdate = setInterval(updateData, 1000);
-  
-  $("#pausePlayButton").bind('click', toggleAutoPolling);
-  
-});
-
-
-/***************************************************************
     Toggle automatic update polling
 ****************************************************************/
 function toggleAutoPolling() {
@@ -64,3 +51,27 @@ function updateCurrentData() {
     $("#currentAverage").text(data.average);
   });
 }
+
+
+/***************************************************************
+    
+    Document Ready
+    
+****************************************************************/
+$("document").ready(function() {        
+  updateData();
+  // This is the polling function. Periodically checks for new info from the database.
+  autoUpdate = setInterval(updateData, 1000);
+  
+  $("#pausePlayButton").bind('click', toggleAutoPolling);
+  
+  /***************************************************************
+    Set the 'average' value for the graph.
+    This changes the rollPeriod option of the dygraph object.
+  ****************************************************************/
+  $('.avg-graph').bind('click', function() {
+    var avg = $(this).data("avg");
+    g.updateOptions( { 'rollPeriod': avg } );
+  });
+  
+});

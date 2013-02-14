@@ -112,11 +112,12 @@ if( !isset($_SESSION['username']) ) {
             <li class="dropdown">
               <a class="dropdown-toggle" data-toggle="dropdown" href="#">Average<b class="caret"></b></a>
               <ul class="dropdown-menu">
-                <li><a href="#">No Average</a></li>
-                <li><a href="#">Average 2</a></li>
-                <li><a href="#">Average 3</a></li>
-                <li><a href="#">Average 5</a></li>
-                <li><a href="#">Average 10</a></li>
+                <li><a href="#" class="avg-graph" data-avg="1">No Average</a></li>
+                <li><a href="#" class="avg-graph" data-avg="2">Average 2</a></li>
+                <li><a href="#" class="avg-graph" data-avg="3">Average 3</a></li>
+                <li><a href="#" class="avg-graph" data-avg="5">Average 5</a></li>
+                <li><a href="#" class="avg-graph" data-avg="10">Average 10</a></li>
+                <li><a href="#" class="avg-graph" data-avg="15">Average 15</a></li>
               </ul>
             </li>
             <!-- Dropdown Menu for Time Period-->
@@ -187,7 +188,7 @@ if( !isset($_SESSION['username']) ) {
             </tr>
             <tr>
               <td>Target</td>
-              <td>33.5</td>
+              <td>65.0</td>
             </tr>
           </table>
           <p><a class="btn" href="#">View details &raquo;</a></p>
