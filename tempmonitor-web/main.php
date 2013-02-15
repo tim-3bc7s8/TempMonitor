@@ -124,13 +124,13 @@ if( !isset($_SESSION['username']) ) {
             <li class="dropdown">
               <a class="dropdown-toggle" data-toggle="dropdown" href="#">Time Period<b class="caret"></b></a>
               <ul class="dropdown-menu">
-                <li><a href="#">Past 1 Hour</a></li>
-                <li><a href="#">Past 12 Hours</a></li>
-                <li><a href="#">Past 24 Hours</a></li>
-                <li><a href="#">Past 1 Week</a></li>
-                <li><a href="#">Past 1 Month</a></li>
-                <li><a href="#">Past 3 Months</a></li>
-                <li><a href="#">All Time</a></li>
+                <li><a href="#" class="time-graph" data-time="1">Past 1 Hour</a></li>
+                <li><a href="#" class="time-graph" data-time="12">Past 12 Hours</a></li>
+                <li><a href="#" class="time-graph" data-time="24">Past 24 Hours</a></li>
+                <li><a href="#" class="time-graph" data-time="168">Past 7 Days</a></li>
+                <li><a href="#" class="time-graph" data-time="720">Past 30 Days</a></li>
+                <li><a href="#" class="time-graph" data-time="2160">Past 90 Days</a></li>
+                <li><a href="#" class="time-graph" data-time="0">All Time</a></li>
               </ul>
             </li>
             <!-- end dropdown -->

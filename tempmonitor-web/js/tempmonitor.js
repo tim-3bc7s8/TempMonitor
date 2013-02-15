@@ -6,6 +6,11 @@
 ****************************************************************/
 var autoUpdate;
 
+/**************************************************************
+    The timeFilterHours variable stores how far back in time that
+    the graph will display. A value of 0 will display all data.
+****************************************************************/
+var timeFilterHours;
 
 /***************************************************************
     Toggle automatic update polling
@@ -28,7 +33,7 @@ function toggleAutoPolling() {
 ****************************************************************/
 function updateData() {
   // grab the current CSV data
-  var newData = "php/getTempCsv.php";
+  var newData = "php/getTempCsv.php?t=" + timeFilterHours;
   
   // update the graph
   g.updateOptions( { 'file': newData } );
@@ -58,7 +63,8 @@ function updateCurrentData() {
     Document Ready
     
 ****************************************************************/
-$("document").ready(function() {        
+$("document").ready(function() {
+  timeFilterHours = "0";
   updateData();
   // This is the polling function. Periodically checks for new info from the database.
   autoUpdate = setInterval(updateData, 1000);
@@ -72,6 +78,15 @@ $("document").ready(function() {
   $('.avg-graph').bind('click', function() {
     var avg = $(this).data("avg");
     g.updateOptions( { 'rollPeriod': avg } );
+  });
+  
+  /***************************************************************
+    Set the 'time period' value for the graph.
+    This changes the 't' parameter that is sent to the php
+    script that generates the csv.
+  ****************************************************************/
+  $('.time-graph').bind('click', function() {
+    timeFilterHours = $(this).data("time");  
   });
   
 });

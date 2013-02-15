@@ -1,11 +1,11 @@
 <?php
 
 /***************************************************************
-    getTempCsv.php
+	getTempCsv.php
 	Part of the TempMonitor project
 	
-	This script builds a CSV file from sensor data stored
-    in the database.
+	This script builds a CSV file from sensor data
+	stored in the database.
 	
 ****************************************************************/
 
@@ -18,6 +18,36 @@ require_once 'KLogger.php';
 $log = KLogger::instance('../logs', KLogger::ERR);
 // database connection settings.
 require_once 'dbconfig.php';
+
+
+/***************************************************************
+    Get input parameters
+****************************************************************/
+
+// The time parameter determines how many hours of data
+// to get from the database.
+if (isset($_GET["t"])) {
+	$unescaped_hours = $_GET["t"];
+	$hours = mysql_real_escape_string($unescaped_hours);
+}
+
+
+/***************************************************************
+    Calculate the time filter.
+    If an hours parameter was set, then get the mysql time/date
+    format of that x hours ago.
+****************************************************************/
+
+if (isset($hours) && $hours > 0) {
+	$date = new DateTime();
+	echo "Now: " . date_format($date, 'Y-m-d H:i:s');
+	echo "<br>";
+	date_sub($date, date_interval_create_from_date_string($hours . ' hours'));
+	$filter_time =  date_format($date, 'Y-m-d H:i:s');
+} else {
+	// no time was set so get all data
+	$filter_time =  "2013-01-01 23:59:59";
+}
 
 
 /***************************************************************
@@ -66,11 +96,21 @@ echo "Date,Temp1,Temp2,Temp3\n";
 /***************************************************************
     Query the database and build the CSV data
 ****************************************************************/
-$sql = "SELECT data_period.ts AS date, dp1.data AS temp1, dp2.data AS temp2, dp3.data AS temp3
+if (isset($filter_time)) {
+	$sql = "SELECT data_period.ts AS date, dp1.data AS temp1, dp2.data AS temp2, dp3.data AS temp3
+		FROM data_period
+		LEFT OUTER JOIN data_points AS dp1 ON dp1.data_period=data_period.id AND dp1.sensor_id=1
+		LEFT OUTER JOIN data_points AS dp2 ON dp2.data_period=data_period.id AND dp2.sensor_id=2
+		LEFT OUTER JOIN data_points AS dp3 ON dp3.data_period=data_period.id AND dp3.sensor_id=3
+		GROUP BY data_period.ts
+		HAVING data_period.ts >= '$filter_time'";
+} else {
+	$sql = "SELECT data_period.ts AS date, dp1.data AS temp1, dp2.data AS temp2, dp3.data AS temp3
 		FROM data_period
 		LEFT OUTER JOIN data_points AS dp1 ON dp1.data_period=data_period.id AND dp1.sensor_id=1
 		LEFT OUTER JOIN data_points AS dp2 ON dp2.data_period=data_period.id AND dp2.sensor_id=2
 		LEFT OUTER JOIN data_points AS dp3 ON dp3.data_period=data_period.id AND dp3.sensor_id=3";
+}
 
 $result = mysql_query($sql);
 if (!$result) {
