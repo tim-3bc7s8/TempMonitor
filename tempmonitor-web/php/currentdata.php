@@ -67,7 +67,6 @@ while($row = mysql_fetch_row($result)) {
     $data_period_id = $row[0];
     $currentTs = $row[1];
     $curData->ts = $currentTs;
-    $row_count++; // not needed if we stop using the timing script
 }
 
 
@@ -89,7 +88,6 @@ while($row = mysql_fetch_row($result)) {
     if ($sensor_id == "1") $curData->sensor1 = $row[1];
     if ($sensor_id == "2") $curData->sensor2 = $row[1];
     if ($sensor_id == "3") $curData->sensor3 = $row[1];
-    $row_count++; // not needed if we stop using the timing script
 }
 
 

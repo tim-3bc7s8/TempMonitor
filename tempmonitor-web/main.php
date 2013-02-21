@@ -124,7 +124,7 @@ if( !isset($_SESSION['username']) ) {
             <li class="dropdown">
               <a class="dropdown-toggle" data-toggle="dropdown" href="#">Time Period<b class="caret"></b></a>
               <ul class="dropdown-menu">
-                <li><a href="#" class="time-graph" data-time="1">Past 1 Hour</a></li>
+                <li><a href="#" class="time-graph" data-time="3">Past 3 Hours</a></li>
                 <li><a href="#" class="time-graph" data-time="12">Past 12 Hours</a></li>
                 <li><a href="#" class="time-graph" data-time="24">Past 24 Hours</a></li>
                 <li><a href="#" class="time-graph" data-time="168">Past 7 Days</a></li>

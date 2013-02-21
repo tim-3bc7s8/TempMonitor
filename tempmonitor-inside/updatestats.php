@@ -1,9 +1,9 @@
 <?php
 
 
-// connect to the frms database
-include 'includes/dbconfig.php';
-include 'includes/opendb.php';
+// connect to the database
+include 'php/dbconfig.php';
+include 'php/opendb.php';
 
 $errorFound=false;
 
