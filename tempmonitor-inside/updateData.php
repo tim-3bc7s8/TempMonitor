@@ -73,9 +73,9 @@ $log = KLogger::instance('logs', $log_level);
 $errorFound=false;
 
 // send the URL string to the log file
-$urlString = 'http://'.$_SERVER['HTTP_HOST'].$_SERVER['PHP_SELF'];
-$queryString = $_SERVER['QUERY_STRING'];
-$log->logDebug($urlString . "?" . $queryString);
+//$urlString = 'http://'.$_SERVER['HTTP_HOST'].$_SERVER['PHP_SELF'];
+//$queryString = $_SERVER['QUERY_STRING'];
+//$log->logDebug($urlString . "?" . $queryString);
 
 
 
