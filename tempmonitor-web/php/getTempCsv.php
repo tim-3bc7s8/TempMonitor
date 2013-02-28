@@ -40,8 +40,8 @@ if (isset($_GET["t"])) {
 
 if (isset($hours) && $hours > 0) {
 	$date = new DateTime();
-	echo "Now: " . date_format($date, 'Y-m-d H:i:s');
-	echo "<br>";
+	//echo "Now: " . date_format($date, 'Y-m-d H:i:s');
+	//echo "<br>";
 	date_sub($date, date_interval_create_from_date_string($hours . ' hours'));
 	$filter_time =  date_format($date, 'Y-m-d H:i:s');
 } else {
@@ -91,7 +91,7 @@ header('Content-Disposition: attachment; filename="temps.csv"');
     Header (title) line in the CSV file
 ****************************************************************/
 // Begin CSV file
-echo "Date,Temp1,Temp2,Temp3\n";
+//echo "Date,Temp1,Temp2,Temp3\n";
 
 /***************************************************************
     Query the database and build the CSV data

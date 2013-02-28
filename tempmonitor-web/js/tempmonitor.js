@@ -28,15 +28,74 @@ function toggleAutoPolling() {
 }
 
 
+function loadCSV() {  
+  // grab the current CSV data
+  var url = "php/getTempCsv.php?t=" + timeFilterHours;
+  
+  var request = new XMLHttpRequest();
+  request.open('GET', url, false);
+  request.send();
+  data = request.responseText;
+  
+  //replace UNIX new lines
+  data = data.replace (/\r\n/g, "\n");
+  //replace MAC new lines
+  data = data.replace (/\r/g, "\n");
+  //split into rows
+  var rows = data.split("\n");
+  // create array which will hold our data:
+  dataProvider = [];
+  
+  // loop through all rows
+  for (var i = 0; i < rows.length; i++){
+    // this line helps to skip empty rows
+    if (rows[i]) {
+      // our columns are separated by comma
+      var column = rows[i].split(",");  
+       
+      // column is array now 
+      // first item is date
+      var date = new Date(column[0]);
+      // second item is value of the second column
+      var temp1 = parseFloat(column[1]);
+      // third item is value of the third column 
+      var temp2 = parseFloat(column[2]);
+      // fourth item is value of the fourth column
+      var temp3 = parseFloat(column[3]);
+      // create object which contains all these items:
+      dataObject = [];
+      dataObject = [date, temp1, temp2, temp3];      
+      // add object to dataProvider array
+      dataProvider.push(dataObject);
+    }
+  }
+  return dataProvider;
+
+}
+
+
+/***************************************************************
+    Refresh all the data on the graph
+****************************************************************/
+function refreshGraph() {
+  // update the graph
+  g.updateOptions( { 'file': loadCSV() } );
+}
+
 /***************************************************************
     Refresh data on the main screen
+             ...trying to get ride of this function
 ****************************************************************/
 function updateData() {
   // grab the current CSV data
-  var newData = "php/getTempCsv.php?t=" + timeFilterHours;
-  
+  //var newData = "php/getTempCsv.php?t=" + timeFilterHours;
   // update the graph
-  g.updateOptions( { 'file': newData } );
+  //g.updateOptions( { 'file': loadCSV() } );
+  
+  // only do live updates if viewing the past 12 hours
+  if (timeFilterHours <= 12) {
+    refreshGraph();
+  }
   
   // update current data section
   updateCurrentData();
@@ -64,7 +123,7 @@ function updateCurrentData() {
     
 ****************************************************************/
 $("document").ready(function() {
-  timeFilterHours = "0";
+  timeFilterHours = "3";
   updateData();
   // This is the polling function. Periodically checks for new info from the database.
   autoUpdate = setInterval(updateData, 1000);
@@ -86,7 +145,8 @@ $("document").ready(function() {
     script that generates the csv.
   ****************************************************************/
   $('.time-graph').bind('click', function() {
-    timeFilterHours = $(this).data("time");  
+    timeFilterHours = $(this).data("time");
+    refreshGraph();
   });
   
 });

@@ -142,18 +142,19 @@ if( !isset($_SESSION['username']) ) {
           <script type="text/javascript">
             g = new Dygraph(document.getElementById("graphdiv"),
                 // data source
-                "php/getTempCsv.php", // All data from database
+                "php/getTempCsv.php?t=1", // All data from database   
                 // options
                 {
                   title: 'Temperature',
                   ylabel: 'Temperature (F)',
-                  drawPoints: true,
+                  drawPoints: false,
                   rollPeriod: 1,
                   showRoller: false,
-                  fillGraph: true,
-                  strokeWidth: 2,
+                  fillGraph: false,
+                  strokeWidth: 1,
                   highlightCircleSize: 4,
-                  showRangeSelector: true
+                  showRangeSelector: true,
+                  labels: [ "Date", "Temp1", "Temp2", "Temp3" ]
                 }
               );
           </script>
