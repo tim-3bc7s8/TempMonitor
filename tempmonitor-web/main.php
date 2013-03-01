@@ -1,5 +1,6 @@
 <?php
 
+
 /***************************************************************
     Check if the user is logged in. If not, 
     redirect to login page.
@@ -7,8 +8,9 @@
 session_start();
 if( !isset($_SESSION['username']) ) {
     header("Location: login.php");
+} else {
+    header("Connection: Keep-Alive");
 }
-
 ?>
 
 
@@ -106,6 +108,7 @@ if( !isset($_SESSION['username']) ) {
                 <li><a href="#">Sensor 2</a></li>
                 <li><a href="#">Sensor 3</a></li>
                 <li><a href="#">All Sensors</a></li>
+                <li><a href="#">Average</a></li>
               </ul>
             </li>
             <!-- Dropdown Menu for Average -->
@@ -155,7 +158,7 @@ if( !isset($_SESSION['username']) ) {
                   highlightCircleSize: 4,
                   showRangeSelector: true,
                   labels: [ "Date", "Temp1", "Temp2", "Temp3" ]
-                }
+                }                
               );
           </script>
         </div>

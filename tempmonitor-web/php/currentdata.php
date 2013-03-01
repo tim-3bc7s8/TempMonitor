@@ -1,5 +1,4 @@
 <?php
-
 /***************************************************************
     currentdata.php
 	Part of the TempMonitor project
@@ -9,6 +8,17 @@
 	
 ****************************************************************/
 
+
+/***************************************************************
+    Check if the user is logged in. If not, 
+    redirect to login page.
+****************************************************************/
+session_start();
+if( !isset($_SESSION['username']) ) {
+    header("Location: login.php");
+} else {
+    header("Connection: Keep-Alive");
+}
 
 /***************************************************************
     Set up the logging system and DB config settings
