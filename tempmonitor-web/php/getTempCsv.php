@@ -136,5 +136,9 @@ $mtime = microtime();
 $mtime = explode(" ",$mtime); 
 $mtime = $mtime[1] + $mtime[0]; 
 $endtime = $mtime; 
-$totaltime = ($endtime - $starttime); 
-$log->logInfo("The temps.csv file was created. " . $row_count . " rows in " . number_format($totaltime, 3, '.', '') . " seconds. Avg/row: " . number_format($totaltime/$row_count, 3, '.', ''));
+$totaltime = ($endtime - $starttime);
+if ($row_count > 0) {
+	$log->logInfo("The temps.csv file was created. " . $row_count . " rows in " . number_format($totaltime, 3, '.', '') . " seconds. Avg/row: " . number_format($totaltime/$row_count, 3, '.', ''));
+} else {
+	$log->logError("The temps.csv file was created but no rows were generated. " . number_format($totaltime, 3, '.', ''));
+}
